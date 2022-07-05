@@ -22,7 +22,7 @@
       >
       <template #action="scope">
         <el-button type="primary" @click="submitForm(scope)">提交</el-button>
-        <el-button @click="resetForm">重置</el-button>
+        <el-button @click="resetForm(scope)">重置</el-button>
       </template>
     </mx-form>
   </div>
@@ -144,7 +144,6 @@ const options: FormOptions[] = [
     ]
   }
 ]
-const form = ref()
 
 const submitForm = (scope: Scope) => {
   scope.form.validate((valid) => {
@@ -157,8 +156,8 @@ const submitForm = (scope: Scope) => {
   })
 }
 // 重置表单
-const resetForm = () => {
-  form.value.resetFields()
+const resetForm = (scope: Scope) => {
+  scope.form.resetFields()
 }
 
 const handleRemove = (file: any, fileList: any) => {

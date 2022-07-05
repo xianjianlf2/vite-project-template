@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MxContainer from '../components/container/src/container.vue'
 import Home from '../views/Home.vue'
 import Form from '../views/Form.vue'
+import Table from '../views/Table.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -9,7 +10,8 @@ const routes: RouteRecordRaw[] = [
     component: MxContainer,
     children: [
       { path: '/', component: Home },
-      { path: '/form', component: Form }
+      { path: '/form', component: Form },
+      { path: '/table', component: Table }
     ]
   }
 ]

@@ -55,6 +55,10 @@
           ></component> </component
       ></el-form-item>
     </template>
+
+    <el-form-item>
+      <slot name="action" :form="form" :model="model"></slot>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -62,10 +66,14 @@
 import { onMounted, PropType, ref, watch } from 'vue'
 import { FormOptions } from '../types/types'
 import cloneDeep from 'lodash/cloneDeep'
+import { FormInstance } from 'element-plus'
 const props = defineProps({
   options: {
     type: Array as PropType<FormOptions[]>,
     required: true
+  },
+  httpRequest: {
+    type: Function
   }
 })
 
@@ -83,6 +91,7 @@ const emits = defineEmits([
 
 const model = ref<any>(null)
 const rules = ref<any>(null)
+const form = ref<FormInstance>()
 
 // 初始化表单
 const initForm = () => {
