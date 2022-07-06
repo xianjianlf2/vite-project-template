@@ -4,17 +4,17 @@
     class="el-menu-vertical-demo"
     :collapse="collapse"
   >
-    <el-menu-item index="2">
+    <el-menu-item index="2" @click="$router.push('/')">
       <el-icon-menu></el-icon-menu>
-      <span>Navigator Two</span>
+      <span>Home</span>
     </el-menu-item>
-    <el-menu-item index="2">
+    <el-menu-item index="2" @click="$router.push('/table')">
       <el-icon-menu></el-icon-menu>
-      <span>Navigator Two</span>
+      <span>Table</span>
     </el-menu-item>
-    <el-menu-item index="2">
+    <el-menu-item index="2" @click="$router.push('/form')">
       <el-icon-menu></el-icon-menu>
-      <span>Navigator Two</span>
+      <span>Form</span>
     </el-menu-item>
   </el-menu>
 </template>
