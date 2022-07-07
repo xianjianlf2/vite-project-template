@@ -103,18 +103,18 @@ const options: TableOptions[] = [
   }
 ]
 const getData = () => {
-  axios
-    .post('/api/list', {
-      current: current.value,
-      pageSize: pageSize.value
-    })
-    .then((res: any) => {
-      if (res.data.code === '200') {
-        tableData.value = res.data.data.rows
-        total.value = res.data.data.total
-        console.log(res.data.data)
-      }
-    })
+  // axios
+  //   .post('/api/list', {
+  //     current: current.value,
+  //     pageSize: pageSize.value
+  //   })
+  //   .then((res: any) => {
+  //     if (res.data.code === '200') {
+  //       tableData.value = res.data.data.rows
+  //       total.value = res.data.data.total
+  //       console.log(res.data.data)
+  //     }
+  //   })
 }
 const handleSizeChange = (val: number) => {
   pageSize.value = val
