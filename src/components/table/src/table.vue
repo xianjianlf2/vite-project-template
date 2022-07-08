@@ -19,7 +19,7 @@
           <template v-if="scope.$index + scope.column.id === currentEdit">
             <div style="display: flex">
               <el-input size="small" v-model="scope.row[item.prop!]"></el-input>
-              <div>
+              <div >
                 <slot
                   name="cellEdit"
                   v-if="$slots.cellEdit"
@@ -146,6 +146,7 @@ const props = defineProps({
 
 const emits = defineEmits(['confirm', 'cancel'])
 const currentEdit = ref<string>('')
+
 // 点击编辑图标
 const clickEditIcon = (scope: any) => {
   // 会做一个判断 判断是否当前单元格被点击了

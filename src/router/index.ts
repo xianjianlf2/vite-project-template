@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MxContainer from '../components/container/src/container.vue'
-import Home from '../views/Home.vue'
-import Form from '../views/Form.vue'
-import Table from '../views/Table.vue'
+import Home from '../views/home.vue'
+import Form from '../views/form.vue'
+import Table from '../views/table.vue'
 
 const routes: RouteRecordRaw[] = [
   {

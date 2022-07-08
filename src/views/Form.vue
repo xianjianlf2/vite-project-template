@@ -34,10 +34,7 @@ import MxForm from '../components/form'
 import { ElMessage, ElMessageBox, FormInstance } from 'element-plus'
 import { ref } from 'vue'
 
-interface Scope {
-  form: FormInstance
-  model: any
-}
+const form = ref()
 
 const options: FormOptions[] = [
   {
@@ -145,10 +142,10 @@ const options: FormOptions[] = [
   }
 ]
 
-const submitForm = (scope: Scope) => {
+const submitForm = (scope: any) => {
   scope.form.validate((valid) => {
     if (valid) {
-      console.log(scope.model)
+      // console.log(scope.model)
       ElMessage.success('提交成功')
     } else {
       ElMessage.error('表单填写有误,请检查')
@@ -156,8 +153,8 @@ const submitForm = (scope: Scope) => {
   })
 }
 // 重置表单
-const resetForm = (scope: Scope) => {
-  scope.form.resetFields()
+const resetForm = () => {
+  form.value.resetFields()
 }
 
 const handleRemove = (file: any, fileList: any) => {

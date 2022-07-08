@@ -33,6 +33,12 @@
         >
         <el-button size="small" type="danger">删除</el-button>
       </template>
+      <template #cellEdit="{ scope }">
+        <div style="display: flex">
+          <el-button size="small" type="primary">确认</el-button>
+          <el-button size="small">取消</el-button>
+        </div>
+      </template>
     </mx-table>
   </div>
 </template>
@@ -41,6 +47,7 @@
 import { onMounted, ref } from 'vue'
 import MxTable from '../components/table'
 import { TableOptions } from '../components/table/src/types'
+import axios from 'axios'
 
 const tableData = ref<any>([])
 const current = ref<number>(1)
@@ -75,31 +82,34 @@ setTimeout(() => {
       zip: 'CA 90036'
     }
   ]
-}, 3000)
+}, 100)
 
 const options: TableOptions[] = [
   {
-    label: '日期',
     prop: 'date',
+    label: '日期',
+    // width: '180',
     align: 'center',
-    slot: 'date'
-  },
-  {
-    label: '姓名',
-    prop: 'name',
-    align: 'center',
-    slot: 'name',
+    slot: 'date',
     editable: true
   },
   {
-    label: '地址',
+    prop: 'name',
+    label: '姓名',
+    // width: '180',
+    align: 'center',
+    slot: 'name'
+  },
+  {
     prop: 'address',
-    align: 'center'
+    label: '地址',
+    align: 'center',
+    editable: true
   },
   {
     label: '操作',
-    align: 'center',
-    action: true
+    action: true,
+    align: 'center'
   }
 ]
 const getData = () => {

@@ -1,5 +1,6 @@
 <template>
   <el-form
+    ref="form"
     v-if="model"
     :validate-on-rule-change="false"
     :model="model"
@@ -151,6 +152,26 @@ const beforeRemove = (file: File, fileList: FileList) => {
 const onExceed = (files: File, fileList: FileList) => {
   emits('on-exceed', { files, fileList })
 }
+
+// 重置表单
+let resetFields = () => {
+  // 重置element-plus的表单
+  form.value!.resetFields()
+}
+// 表单验证方法
+let validate = () => {
+  return form.value!.validate
+}
+// 获取表单数据
+let getFormData = () => {
+  return model.value
+}
+// 分发方法
+defineExpose({
+  resetFields,
+  validate,
+  getFormData
+})
 </script>
 
 <style></style>
