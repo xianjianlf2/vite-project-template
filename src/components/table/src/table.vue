@@ -144,7 +144,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['confirm', 'cancel'])
+const emits = defineEmits(['confirm', 'cancel', 'update:editRowIndex'])
 const currentEdit = ref<string>('')
 
 // 点击编辑图标
