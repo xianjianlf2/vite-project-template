@@ -162,27 +162,26 @@ const handlePreview = (file: any) => {
   console.log('handlePreview')
   console.log(file)
 }
-const beforeRemove = (val: any) => {
+const beforeRemove = (file: File, fileList: FileList) => {
   console.log('beforeRemove')
-  return ElMessageBox.confirm(`Cancel the transfert of ${val.file.name} ?`)
+  // return ElMessageBox.confirm(`Cancel the transfert of ${val.file.name} ?`)
 }
-const handleExceed = (val: any) => {
-  console.log('handleExceed', val)
-  ElMessage.warning(
-    `The limit is 3, you selected ${
-      val.files.length
-    } files this time, add up to ${
-      val.files.length + val.fileList.length
-    } totally`
-  )
+const handleExceed = (file: File, fileList: FileList) => {
+  console.log('handleExceed', file)
+  // ElMessage.warning(
+  //   `The limit is 3, you selected ${
+  //     val.files.length
+  //   } files this time, add up to ${
+  //     val.files.length + val.fileList.length
+  //   } totally`
+  // )
 }
-const handleSuccess = (val: any) => {
+const handleSuccess = (response: any, file: File, fileList: FileList) => {
   console.log('success')
-  console.log(val)
+  console.log(response)
 }
-const handleChange = (val: any) => {
+const handleChange = (file: File, fileList: FileList) => {
   console.log('change')
-  console.log(val)
 }
 const handleBeforeUpload = (val: any) => {
   console.log('handleBeforeUpload')
