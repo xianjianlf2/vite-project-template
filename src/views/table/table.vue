@@ -45,9 +45,10 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import MxTable from '../components/table'
-import { TableOptions } from '../components/table/src/types'
+import MxTable from '../../components/table'
+import { TableOptions } from '../../components/table/src/types'
 import axios from 'axios'
+import { options } from './config/table-options'
 
 const tableData = ref<any>([])
 const current = ref<number>(1)
@@ -84,34 +85,6 @@ setTimeout(() => {
   ]
 }, 100)
 
-const options: TableOptions[] = [
-  {
-    prop: 'date',
-    label: '日期',
-    // width: '180',
-    align: 'center',
-    slot: 'date',
-    editable: true
-  },
-  {
-    prop: 'name',
-    label: '姓名',
-    // width: '180',
-    align: 'center',
-    slot: 'name'
-  },
-  {
-    prop: 'address',
-    label: '地址',
-    align: 'center',
-    editable: true
-  },
-  {
-    label: '操作',
-    action: true,
-    align: 'center'
-  }
-]
 const getData = () => {
   // axios
   //   .post('/api/list', {

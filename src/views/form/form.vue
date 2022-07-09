@@ -21,16 +21,16 @@
         </div></template
       >
       <template #action="scope">
-        <el-button type="primary" @click="submitForm(scope)">提交</el-button>
-        <el-button @click="resetForm(scope)">重置</el-button>
+        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button @click="resetForm">重置</el-button>
       </template>
     </mx-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { FormOptions } from '../components/form/types/types'
-import MxForm from '../components/form'
+import { FormOptions } from '../../components/form/types/types'
+import MxForm from '../../components/form'
 import { ElMessage, ElMessageBox, FormInstance } from 'element-plus'
 import { ref } from 'vue'
 
@@ -142,15 +142,12 @@ const options: FormOptions[] = [
   }
 ]
 
-const submitForm = (scope: any) => {
-  scope.form.validate((valid) => {
-    if (valid) {
-      // console.log(scope.model)
-      ElMessage.success('提交成功')
-    } else {
-      ElMessage.error('表单填写有误,请检查')
-    }
-  })
+const submitForm = () => {
+  if (form.value.validate()) {
+    ElMessage.success('提交成功')
+  } else {
+    ElMessage.error('表单填写有误,请检查')
+  }
 }
 // 重置表单
 const resetForm = () => {
