@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mx-form
+    <!-- <mx-form
       ref="form"
       label-width="100px"
       :options="options"
@@ -24,7 +24,9 @@
         <el-button type="primary" @click="submitForm(scope)">提交</el-button>
         <el-button @click="resetForm(scope)">重置</el-button>
       </template>
-    </mx-form>
+    </mx-form> -->
+    <el-button @click="dialogVisible = true" type="primary">表单弹窗</el-button>
+    <page-modal v-model:dialogVisible="dialogVisible"></page-modal>
   </div>
 </template>
 
@@ -33,8 +35,10 @@ import { FormOptions } from '../components/form/types/types'
 import MxForm from '../components/form'
 import { ElMessage, ElMessageBox, FormInstance } from 'element-plus'
 import { ref } from 'vue'
+import PageModal from '../components/page-modal/src/page-modal.vue'
 
 const form = ref()
+const dialogVisible = ref(false)
 
 const options: FormOptions[] = [
   {

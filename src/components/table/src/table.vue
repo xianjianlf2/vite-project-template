@@ -19,7 +19,7 @@
           <template v-if="scope.$index + scope.column.id === currentEdit">
             <div style="display: flex">
               <el-input size="small" v-model="scope.row[item.prop!]"></el-input>
-              <div >
+              <div>
                 <slot
                   name="cellEdit"
                   v-if="$slots.cellEdit"

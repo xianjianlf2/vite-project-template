@@ -1,66 +1,74 @@
 <template>
-  <el-form
-    ref="form"
-    v-if="model"
-    :validate-on-rule-change="false"
-    :model="model"
-    :rules="rules"
-    v-bind="$attrs"
-  >
-    <template v-for="(item, index) in options" :key="index">
-      <el-form-item
-        :prop="item.prop"
-        :label="item.label"
-        v-if="!item.children || !item.children!.length"
-      >
-        <component
-          v-if="item.type !== 'upload'"
-          v-bind="item.attrs"
-          :is="`el-${item.type}`"
-          v-model="model[item.prop!]"
-        ></component>
-        <el-upload
-          v-else
-          v-bind="item.uploadAttrs"
-          :on-preview="onPreview"
-          :on-remove="onRemove"
-          :on-success="onSuccess"
-          :on-error="onError"
-          :on-progress="onProgress"
-          :on-change="onChange"
-          :before-upload="beforeUpload"
-          :before-remove="beforeRemove"
-          :http-request="httpRequest"
-          :on-exceed="onExceed"
-        >
-          <slot name="uploadArea"></slot>
-          <slot name="uploadTip"></slot> </el-upload
-      ></el-form-item>
-      <el-form-item
-        v-if="item.children && item.children.length"
-        :prop="item.prop"
-        :label="item.label"
-      >
-        <component
-          :placeholder="item.placeholder"
-          v-bind="item.attrs"
-          :is="`el-${item.type}`"
-          v-model="model[item.prop!]"
-        >
-          <component
-            v-for="(child, i) in item.children"
-            :key="i"
-            :is="`el-${child.type}`"
-            :label="child.label"
-            :value="child.value"
-          ></component> </component
-      ></el-form-item>
-    </template>
-
+  <div class="my-form">
+    <el-form
+      ref="form"
+      v-if="formData"
+      :validate-on-rule-change="false"
+      v-bind="$attrs"
+      :label-width="labelWidth"
+    >
+      <el-row>
+        <template v-for="(item, index) in formItems" :key="index">
+          <el-col v-bind="colLayout">
+            <el-form-item
+              :prop="item.prop"
+              :label="item.label"
+              :rules="item.rules"
+              :style="itemStyle"
+              v-if="!item.children || !item.children!.length"
+            >
+              <component
+                v-if="item.type !== 'upload'"
+                v-bind="item.attrs"
+                :is="`el-${item.type}`"
+                v-model="formData[`${item.prop}`]"
+              ></component>
+              <el-upload
+                v-else
+                v-bind="item.uploadAttrs"
+                :on-preview="onPreview"
+                :on-remove="onRemove"
+                :on-success="onSuccess"
+                :on-error="onError"
+                :on-progress="onProgress"
+                :on-change="onChange"
+                :before-upload="beforeUpload"
+                :before-remove="beforeRemove"
+                :http-request="httpRequest"
+                :on-exceed="onExceed"
+              >
+                <slot name="uploadArea"></slot>
+                <slot name="uploadTip"></slot> </el-upload
+            ></el-form-item>
+            <el-form-item
+              v-if="item.children && item.children.length"
+              :prop="item.prop"
+              :label="item.label"
+              :rules="item.rules"
+              :style="itemStyle"
+            >
+              <component
+                :placeholder="item.placeholder"
+                v-bind="item.attrs"
+                :is="`el-${item.type}`"
+                v-model="formData[`${item.prop}`]"
+              >
+                <component
+                  v-for="(child, i) in item.children"
+                  :key="i"
+                  :is="`el-${child.type}`"
+                  :label="child.label"
+                  :value="child.value"
+                ></component> </component
+            ></el-form-item>
+          </el-col>
+        </template>
+      </el-row>
+    </el-form>
     <el-form-item>
-      <slot name="action" :form="form" :model="model"></slot>
+      <slot name="action"></slot>
     </el-form-item>
-  </el-form>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -69,12 +77,33 @@ import { FormOptions } from '../types/types'
 import cloneDeep from 'lodash/cloneDeep'
 import { FormInstance } from 'element-plus'
 const props = defineProps({
-  options: {
+  modelValue: {
+    type: Object
+  },
+  formItems: {
     type: Array as PropType<FormOptions[]>,
     required: true
   },
   httpRequest: {
     type: Function
+  },
+  labelWidth: {
+    type: String,
+    default: () => '100px'
+  },
+  itemStyle: {
+    type: Object,
+    default: () => ({ padding: '10px 40px' })
+  },
+  colLayout: {
+    type: Object,
+    default: () => ({
+      xl: 6, // ≥1920px
+      lg: 8, // ≥1200px
+      md: 12, // ≥992px
+      sm: 24, // ≥768px
+      xs: 24 // <768px
+    })
   }
 })
 
@@ -87,36 +116,41 @@ const emits = defineEmits([
   'on-change',
   'before-upload',
   'before-remove',
-  'on-exceed'
+  'on-exceed',
+  'update:modelValue'
 ])
 
-const model = ref<any>(null)
-const rules = ref<any>(null)
+const formData = ref<any>({ ...props.modelValue })
 const form = ref<FormInstance>()
 
 // 初始化表单
-const initForm = () => {
-  if (props.options && props.options.length) {
-    let m: any = {}
-    let r: any = {}
-    props.options.map((item: FormOptions) => {
-      m[item.prop!] = item.value
-      r[item.prop!] = item.rules
-    })
-    model.value = cloneDeep(m)
-    rules.value = cloneDeep(r)
-  }
-}
+// const initForm = () => {
+// if (props.formItems && props.formItems.length) {
+//   let m: any = {}
+//   props.formItems.map((item: FormOptions) => {
+//     m[item.prop!] = item.value
+//   })
+//   formData.value = cloneDeep(m)
+// }
+// }
 
-onMounted(() => {
-  initForm()
-})
+// onMounted(() => {
+//   initForm()
+// })
 
-// 监听父组件数据变了
+// // 监听父组件数据变了
+// watch(
+//   () => props.options,
+//   () => {
+//     initForm()
+//   },
+//   { deep: true }
+// )
+
 watch(
-  () => props.options,
-  () => {
-    initForm()
+  formData,
+  (newValue) => {
+    emits('update:modelValue', newValue)
   },
   { deep: true }
 )
@@ -130,8 +164,8 @@ const onRemove = (file: File, fileList: FileList) => {
 }
 const onSuccess = (response: any, file: File, fileList: FileList) => {
   // 上传图片成功 给表单上传项赋值
-  const uploadItem = props.options.find((item) => item.type === 'upload')!
-  model.value[uploadItem.prop!] = { response, file, fileList }
+  const uploadItem = props.formItems.find((item) => item.type === 'upload')!
+  formData.value[uploadItem.prop!] = { response, file, fileList }
   emits('on-success', { response, file, fileList })
 }
 const onError = (err: any, file: File, fileList: FileList) => {
@@ -164,7 +198,7 @@ let validate = () => {
 }
 // 获取表单数据
 let getFormData = () => {
-  return model.value
+  return formData.value
 }
 // 分发方法
 defineExpose({
@@ -174,4 +208,8 @@ defineExpose({
 })
 </script>
 
-<style></style>
+<style scoped lang="less">
+.my-form {
+  padding: 20px 20px 0;
+}
+</style>
